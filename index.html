@@ -14,6 +14,10 @@
         <script>
             var app = angular.module("myApp", ["firebase"]);
             app.controller("myCtrl", function($scope, $firebaseArray, $firebaseAuth) {
+                var phonegapReady = function(){
+                    alert("we are in phonegap");
+                };
+                document.addEventListener("deviceready", phonegapReady, false);
                 var ref = new Firebase("https://dazzling-heat-1553.firebaseio.com/messages");
                 $scope.auth = null;
                 ref.onAuth(function(authData) {
