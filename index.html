@@ -17,7 +17,7 @@
                 var phonegapReady = function(){
                     $scope.ref = null;
                     getRef();
-                    alert("we are in phonegap with " + navigator['userAgent']);
+                    alert("we are in phonegap with window['cordova'] = " + window['cordova'] + " navigator "+ navigator['userAgent']);
                 };
                 var getRef = function(){
                     if($scope.ref == null){
