@@ -54,7 +54,7 @@
                     var provider = 'google';
                     var scope = {scope:'email'};
                     var auth = $firebaseAuth(getRef());
-                    auth.$authWithOAuthPopup(provider, scope, function(error, authData){
+                    auth.$authWithOAuthRedirect(provider, scope, function(error, authData){
                         if (error) {
                             // an error occurred while attempting login
                             alert("error: " + error);
