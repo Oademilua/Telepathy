@@ -17,7 +17,7 @@
                 var phonegapReady = function(){
                     $scope.ref = null;
                     getRef();
-                    alert("we are in phonegap");
+                    alert("we are in phonegap with " + navigator['userAgent']);
                 };
                 var getRef = function(){
                     if($scope.ref == null){
