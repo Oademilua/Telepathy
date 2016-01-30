@@ -1,49 +1,86 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
+<!Doctype html>
 <html>
     <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Cordova.js ... brings in plugin dependencies -->
+        <script src="cordova.js"></script>
+        <!-- AngularJS -->
+        <script src="js/angular.min.js"></script>
+
+        <!-- Firebase -->
+        <script src="js/firebase.js"></script>
+
+        <!-- AngularFire -->
+        <script src="js/angularfire.min.js"></script>
+        <script>
+            var app = angular.module("myApp", ["firebase"]);
+            app.controller("myCtrl", function($scope, $firebaseArray, $firebaseAuth) {
+                var phonegapReady = function(){
+                    $scope.ref = null;
+                    getRef();
+                    alert("we are in phonegap with window['cordova'] = " + window['cordova'] + " navigator "+ navigator['userAgent']);
+                };
+                var getRef = function(){
+                    if($scope.ref == null){
+                        $scope.ref = new Firebase("https://dazzling-heat-1553.firebaseio.com/messages");
+                        $scope.ref.onAuth(function(authData) {
+                            if (authData) {
+                                console.log("Authenticated with uid:", authData.uid);
+                                $scope.auth = authData;
+                                // create a synchronized array
+                                $scope.messages = $firebaseArray($scope.ref);
+                                // add new items to the array
+                                // the message is automatically added to our Firebase database!
+                            } else {
+                                console.log("Client unauthenticated.")
+                            }
+                        });
+                    }
+                    return $scope.ref;
+                }
+                $scope.auth = null;
+                $scope.ref = null;
+                getRef();
+                document.addEventListener("deviceready", phonegapReady, false);
+                $scope.addMessage = function() {
+                    $scope.messages.$add({
+                        text: $scope.newMessageText,
+                        sender: $scope.auth.google.displayName,
+                        uid:$scope.auth.uid
+                    });
+                    $scope.newMessageText = "";
+                };
+                $scope.login =function() {
+                    var provider = 'google';
+                    var scope = {scope:'email'};
+                    var auth = $firebaseAuth(getRef());
+                    auth.$authWithOAuthPopup(provider, scope, function(error, authData){
+                        if (error) {
+                            // an error occurred while attempting login
+                            alert("error: " + error);
+                        }
+                    });
+                };
+                $scope.logout = function(){
+                    $scope.auth = null;
+                    getRef().unauth();
+                }
+            });            
+        </script>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+        <div ng-app="myApp" ng-controller="myCtrl">
+            <form ng-hide="auth != null">
+                <p>This is a chat program that uses firebase as the back end. Click the login button to verify your user name with google and send messages.</p>
+                <button ng-hide="google!=null" type = "submit" ng-click="login()">Login</button>
+            </form>
+            <form ng-hide="auth==null">
+                <div ng-repeat="(n, message) in messages track by n">{{message.sender}}:{{message.text}}</div>
+                <p >Message : <input type="text" ng-model="newMessageText"></p>
+                <button type = "submit" ng-click="addMessage()">Send</button>
+                <button ng-click="logout()">Logout</button>
+            </form>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+
     </body>
 </html>
