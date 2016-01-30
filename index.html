@@ -15,24 +15,32 @@
             var app = angular.module("myApp", ["firebase"]);
             app.controller("myCtrl", function($scope, $firebaseArray, $firebaseAuth) {
                 var phonegapReady = function(){
+                    $scope.ref = null;
+                    getRef();
                     alert("we are in phonegap");
                 };
-                document.addEventListener("deviceready", phonegapReady, false);
-                var ref = new Firebase("https://dazzling-heat-1553.firebaseio.com/messages");
-                $scope.auth = null;
-                ref.onAuth(function(authData) {
-                    if (authData) {
-                        console.log("Authenticated with uid:", authData.uid);
-                        $scope.auth = authData;
-                        // create a synchronized array
-                        $scope.messages = $firebaseArray(ref);
-                        // add new items to the array
-                        // the message is automatically added to our Firebase database!
-                    } else {
-                        console.log("Client unauthenticated.")
+                var getRef = function(){
+                    if($scope.ref == null){
+                        $scope.ref = new Firebase("https://dazzling-heat-1553.firebaseio.com/messages");
+                        $scope.ref.onAuth(function(authData) {
+                            if (authData) {
+                                console.log("Authenticated with uid:", authData.uid);
+                                $scope.auth = authData;
+                                // create a synchronized array
+                                $scope.messages = $firebaseArray($scope.ref);
+                                // add new items to the array
+                                // the message is automatically added to our Firebase database!
+                            } else {
+                                console.log("Client unauthenticated.")
+                            }
+                        });
                     }
-                    $scope.$apply();
-                });
+                    return $scope.ref;
+                }
+                $scope.auth = null;
+                $scope.ref = null;
+                getRef();
+                document.addEventListener("deviceready", phonegapReady, false);
                 $scope.addMessage = function() {
                     $scope.messages.$add({
                         text: $scope.newMessageText,
@@ -44,26 +52,18 @@
                 $scope.login =function() {
                     var provider = 'google';
                     var scope = {scope:'email'};
-                    var auth = $firebaseAuth(ref);
+                    var auth = $firebaseAuth(getRef());
                     auth.$authWithOAuthPopup(provider, scope, function(error, authData){
                         if (error) {
                             // an error occurred while attempting login
-                            var message = 'An error occurred.';
-                            showAlert(message, function(){}, 'Failure!', 'Close');
-
-                        } else {
-                            // user authenticated with Firebase
-                            var message = 'User ID: ' + authData.uid + ', Provider: ' + authData.provider;
-                            showAlert(message, function(){}, 'Success!', 'Close');
-
+                            alert("error: " + error);
                         }
                     });
                 };
                 $scope.logout = function(){
                     $scope.auth = null;
-                    ref.unauth();
+                    getRef().unauth();
                 }
-                // click on `index.html` above to see $remove() and $save() in action
             });            
         </script>
     </head>
