@@ -1,72 +1,24 @@
 <!Doctype html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.firebaseio.com wss://*.firebaseio.com http://*.openstreetmap.org https://auth.firebase.com https://accounts.google.com https://rippleapi.herokuapp.com data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" />
         <!-- Cordova.js ... brings in plugin dependencies -->
         <script src="cordova.js"></script>
         <!-- AngularJS -->
         <script src="js/angular.min.js"></script>
 
         <!-- Firebase -->
-        <script src="js/firebase.js"></script>
+        <script src="js/firebase-debug.js"></script>
 
         <!-- AngularFire -->
         <script src="js/angularfire.min.js"></script>
-        <script>
-            var app = angular.module("myApp", ["firebase"]);
-            app.controller("myCtrl", function($scope, $firebaseArray, $firebaseAuth) {
-                var phonegapReady = function(){
-                    $scope.ref = null;
-                    getRef();
-                    alert("we are in phonegap with window['cordova'] = " + window['cordova'] + " navigator "+ navigator['userAgent']);
-                };
-                var getRef = function(){
-                    if($scope.ref == null){
-                        $scope.ref = new Firebase("https://dazzling-heat-1553.firebaseio.com/messages");
-                        $scope.ref.onAuth(function(authData) {
-                            if (authData) {
-                                console.log("Authenticated with uid:", authData.uid);
-                                $scope.auth = authData;
-                                // create a synchronized array
-                                $scope.messages = $firebaseArray($scope.ref);
-                                // add new items to the array
-                                // the message is automatically added to our Firebase database!
-                            } else {
-                                console.log("Client unauthenticated.")
-                            }
-                        });
-                    }
-                    return $scope.ref;
-                }
-                $scope.auth = null;
-                $scope.ref = null;
-                getRef();
-                document.addEventListener("deviceready", phonegapReady, false);
-                $scope.addMessage = function() {
-                    $scope.messages.$add({
-                        text: $scope.newMessageText,
-                        sender: $scope.auth.google.displayName,
-                        uid:$scope.auth.uid
-                    });
-                    $scope.newMessageText = "";
-                };
-                $scope.login =function() {
-                    var provider = 'google';
-                    var scope = {scope:'email'};
-                    var auth = $firebaseAuth(getRef());
-                    auth.$authWithOAuthRedirect(provider, scope, function(error, authData){
-                        if (error) {
-                            // an error occurred while attempting login
-                            alert("error: " + error);
-                        }
-                    });
-                };
-                $scope.logout = function(){
-                    $scope.auth = null;
-                    getRef().unauth();
-                }
-            });            
-        </script>
+        <script src="js/index.js"></script>
+        <style>
+            .ng-hide{
+                display:none;
+            }
+        </style>
     </head>
     <body>
         <div ng-app="myApp" ng-controller="myCtrl">
@@ -74,7 +26,7 @@
                 <p>This is a chat program that uses firebase as the back end. Click the login button to verify your user name with google and send messages.</p>
                 <button ng-hide="google!=null" type = "submit" ng-click="login()">Login</button>
             </form>
-            <form ng-hide="auth==null">
+            <form ng-hide="auth == null">
                 <div ng-repeat="(n, message) in messages track by n">{{message.sender}}:{{message.text}}</div>
                 <p >Message : <input type="text" ng-model="newMessageText"></p>
                 <button type = "submit" ng-click="addMessage()">Send</button>
