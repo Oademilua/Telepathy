@@ -20,4 +20,4 @@ It relies on firebase backend rule:
     }
 ```
 
-Check it out [here](https://rhildred.github.io/angularfirebasechat)!
+Check it out [here](https://rhildred.github.io/angularfirebasechat/www)!
