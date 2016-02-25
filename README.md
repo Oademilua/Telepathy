@@ -91,4 +91,4 @@ We create a rule on firebase to protect our data:
     }
 ```
 
-Check it out [here](https://rhildred.github.io/angularfirebasechat/www)!
+Firebase is an amazing tool to share state among multiple clients. Check it out [here](https://rhildred.github.io/angularfirebasechat/www)!
