@@ -1,6 +1,6 @@
 # [Angular Firebase Chat](https://github.com/rhildred/angularfirebasechat)
 
-Last year when I did mobile development with phonegap, I spent some time on node.js with socket.io. Firebase is a ready-made back end that uses similar push technology to keep multiple clients up to date.
+Last year when I did mobile development with phonegap, I spent some time on node.js with socket.io. [Firebase](https://www.firebase.com/docs/web/quickstart.html) is a ready-made back end that uses similar push technology to keep multiple clients up to date.
 
 The dependencies for firebase are:
 
