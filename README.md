@@ -91,4 +91,37 @@ We create a rule on firebase to protect our data:
     }
 ```
 
+There was one pretty big gotcha with firebase this year. The latest cordova (cli-5.2.0) is broken with respect to firebase's oauth2 implementation. After messing about with it for way too long. I ended with this fix `<preference name="phonegap-version" value="3.7.0" />` being the active ingredient:
+
+```
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.github.rhildred.simplechat" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Simple chat</name>
+    <description>
+        A simple chatapp with a firebase backend.
+    </description>
+    <author email="rhildred@gmail.com" href="https://rhildred.github.io">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <preference name="phonegap-version" value="3.7.0" />
+    <plugin name="org.apache.cordova.inappbrowser" />
+    <allow-navigation href="https://*/*" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+</widget>
+```
+
 Firebase is an amazing tool to share state among multiple clients. Check the running ap out [here](https://rhildred.github.io/angularfirebasechat/www)!
