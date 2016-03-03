@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.github.rhildred.simplechat" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Simple chat</name>
+<widget id="io.github.oademilua.telepathy" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Telepathy</name>
     <description>
-        A simple chatapp with a firebase backend.
+        A simple random number guessing game mobile app
     </description>
-    <author email="rhildred@gmail.com" href="https://rhildred.github.io">
+    <author email="hh342413@gmail.com" href="https://oademilua.github.io">
         Apache Cordova Team
     </author>
     <content src="index.html" />

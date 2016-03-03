@@ -1,38 +1,55 @@
 <!Doctype html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.firebaseio.com wss://*.firebaseio.com http://*.openstreetmap.org https://auth.firebase.com https://accounts.google.com https://rippleapi.herokuapp.com data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" />
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1" />-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        
         <!-- Cordova.js ... brings in plugin dependencies -->
         <script src="cordova.js"></script>
-        <!-- AngularJS -->
-        <script src="js/angular.min.js"></script>
-
-        <!-- Firebase -->
-        <script src="js/firebase-debug.js"></script>
-
-        <!-- AngularFire -->
-        <script src="js/angularfire.min.js"></script>
-        <script src="js/index.js"></script>
+        
+        <script type="text/javascript" src="js/app.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css" />
+        
         <style>
             .ng-hide{
                 display:none;
             }
         </style>
     </head>
-    <body>
-        <div ng-app="myApp" ng-controller="myCtrl">
-            <form ng-hide="auth != null">
-                <p>This is a chat program that uses firebase as the back end. Click the login button to verify your user name with google and send messages.</p>
-                <button ng-hide="google!=null" type = "submit" ng-click="login()">Login</button>
+    <body onLoad="load()">
+        <header>
+			Telepathy
+		</header>
+        <div class="container">
+            <center>
+            <form name=game>
+                <table border=3>
+                    <tr>
+                        <th align=center colspan=2>Range of numbers</th>
+                        <th align=center rowspan=2><input type=button value=" Start " onclick="range()"></th>
+                    </tr>
+                    <tr>
+                        <th align=center>From:<br><input type=text name=from size=10></th>
+                        <th align=center>To:<br><input type=text name=to size=10></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th align=center colspan=3><input type=text name=help size=70></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th><input type="button" value="  GiveUp  " onClick="GiveUp();"></th>
+                        <th align=right colspan=3><input type=text name=number size=10><input type=button value=" Guess " onclick="guess()"></th>
+                    </tr>
+                </table>
             </form>
-            <form ng-hide="auth == null">
-                <div ng-repeat="(n, message) in messages track by n">{{message.sender}}:{{message.text}}</div>
-                <p >Message : <input type="text" ng-model="newMessageText"></p>
-                <button type = "submit" ng-click="addMessage()">Send</button>
-                <button ng-click="logout()">Logout</button>
-            </form>
+        </center>
         </div>
-
     </body>
 </html>
