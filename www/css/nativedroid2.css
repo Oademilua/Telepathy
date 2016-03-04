@@ -18,15 +18,15 @@
 /*@import url("nativedroid2.color.deep-orange.css");*/
 /*@import url("nativedroid2.color.brown.css");*/
 /*@import url("nativedroid2.color.grey.css");*/
-@import url("nativedroid2.color.blue-grey.css");
+/*@import url("nativedroid2.color.blue-grey.css");*/
 
 
-@import url("flexboxgrid.min.css");
+/*@import url("flexboxgrid.min.css");
 @import url("material-design-iconic-font.min.css");
 @import url(//fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic);
-@import url(//fonts.googleapis.com/css?family=Roboto:400,300,500,400italic,700,900);
+@import url(//fonts.googleapis.com/css?family=Roboto:400,300,500,400italic,700,900);*/
 
-body {
+/*body {
 	-webkit-transition: opacity 0.4s;
 	-moz-transition: opacity 0.4s;
 	-ms-transition: opacity 0.4s;
@@ -62,7 +62,7 @@ body.nd2-ready {
 body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
 	font-family: "RobotoDraft","Roboto","Helvetica Neue",sans-serif;
 	font-weight: 400;
-}
+}*/
 
 /*
  * Typography
@@ -84,14 +84,14 @@ p { font-size: 16px; line-height: 1.2em; }
 .nd2-title { font-size: 2sp; line-height: 1.2em; font-weight: 500; display: block; }
 .nd2-subhead { font-size: 16px; line-height: 1.2em; font-weight: 400; display: block; }
 
-blockquote {
+/*blockquote {
 	position: relative;
 	display: block;
 	background-color: #f6f6f6;
 	padding: 7px 28px;
 	margin-bottom: 54px;
 	color: rgba(0, 0, 0, 0.87);
-}
+}*/
 
 blockquote:after {
 	content: "";
@@ -157,11 +157,11 @@ code {
  * Page Default
  */
 
-.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
+/*.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
 	background-color: #ffffff;
 	border-color: rgba(0,0,0,.87);
 	color: rgba(0, 0, 0, 0.87);
-}
+}*/
 
 .ui-content.ui-content-nopadding {
 	padding: 0em 0px;
